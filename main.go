@@ -232,9 +232,9 @@ func printHelp() {
 func printCommandHelp(command string) {
 	switch command {
 	case "lb":
-		fmt.Printf("Usage: %v %v { list | ( new | remove ) <cluster> | <cluster> ( add | del | move | restore | status ) ARGS... }", os.Args[0], command)
+		fmt.Printf("Usage: %v %v { list | ( new | remove ) <cluster> | <cluster> ( add | del | move | restore | status ) ARGS... }\n\n", os.Args[0], command)
 	case "proxy":
-		fmt.Printf("Usage: %v %v { list ARGS... | ( new | remove | enable | disable ) <cluster> ARGS... }", os.Args[0], command)
+		fmt.Printf("Usage: %v %v { list ARGS... | ( new | remove | enable | disable ) <cluster> ARGS... }\n\n", os.Args[0], command)
 	default:
 		printHelp()
 	}
