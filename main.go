@@ -221,7 +221,11 @@ func isRootUser() bool {
 }
 
 func printHelp() {
-	fmt.Println("This is the main help menu.")
+	fmt.Printf("Usage: %v COMMAND { OPTIONS | help }\n", os.Args[0])
+	fmt.Println("Commands:")
+	fmt.Printf("\t%v lb    - manages loadbalancing for clusters defined in /etc/hosts.\n", os.Args[0])
+	fmt.Printf("\t%v proxy - manages proxy configs used by nginx.\n", os.Args[0])
+
 }
 
 func printCommandHelp(commandName string) {
