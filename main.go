@@ -222,14 +222,22 @@ func isRootUser() bool {
 
 func printHelp() {
 	fmt.Printf("Usage: %v COMMAND { OPTIONS | help }\n", os.Args[0])
+	fmt.Println()
 	fmt.Println("Commands:")
 	fmt.Printf("\t%v lb    - manages loadbalancing for clusters defined in /etc/hosts.\n", os.Args[0])
 	fmt.Printf("\t%v proxy - manages proxy configs used by nginx.\n", os.Args[0])
 
 }
 
-func printCommandHelp(commandName string) {
-	fmt.Printf("This is a help menu for %v.\n", commandName)
+func printCommandHelp(command string) {
+	switch command {
+	case "lb":
+		fmt.Printf("Usage: %v %v { list | ( new | remove ) <cluster> | <cluster> ( add | del | move | restore | status ) ARGS... }", os.Args[0], command)
+	case "proxy":
+		fmt.Printf("Usage: %v %v { list ARGS... | ( new | remove | enable | disable ) <cluster> ARGS... }", os.Args[0], command)
+	default:
+		printHelp()
+	}
 }
 
 func main() {
