@@ -9,6 +9,7 @@ import (
 
 	"nickneal.dev/go-proxymanager/loadbalancer"
 	"nickneal.dev/go-proxymanager/proxy"
+	"nickneal.dev/go-proxymanager/utils/settings"
 )
 
 type Command struct {
@@ -228,14 +229,12 @@ func printCommandHelp(commandName string) {
 }
 
 func main() {
-	// check if root user
-	/*
-		if !isRootUser() {
-			formattedString := fmt.Sprintf("error: '%v' must be run as root user.", os.Args[0])
-			fmt.Println(formattedString)
-			os.Exit(1)
-		}
-	*/
+	// check if root user except if devmode is enabled
+	if !isRootUser() && !settings.CheckDevMode() {
+		formattedString := fmt.Sprintf("error: '%v' must be run as root user.", os.Args[0])
+		fmt.Println(formattedString)
+		os.Exit(1)
+	}
 
 	// get args
 	command := parseArgs()
