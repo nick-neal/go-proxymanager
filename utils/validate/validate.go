@@ -15,7 +15,7 @@ func ValidateClusterName(cluster string) bool {
 }
 
 func ValidateHostName(host string) bool {
-	pattern := "^[a-z0-9]+([-\\.][a-z0-9]+)*$" //only lowercase and numbers
+	pattern := "^[a-z0-9]+([-\\.][a-z0-9]+)*$"
 	if regexp.MustCompile(pattern).MatchString(host) {
 		return true
 	}
@@ -25,7 +25,7 @@ func ValidateHostName(host string) bool {
 }
 
 func ValidateIPAddress(ipAddress string) bool {
-	pattern := "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$" //only lowercase and numbers
+	pattern := "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$"
 	if regexp.MustCompile(pattern).MatchString(ipAddress) {
 		return true
 	}
@@ -38,7 +38,7 @@ func ValidatePort(port string) bool {
 	pattern := "^.[0-9]*$"
 	if regexp.MustCompile(pattern).MatchString(port) && len(port) <= 5 {
 		num, _ := strconv.ParseInt(port, 10, 64)
-		if num >= 1024 && num <= 49151 {
+		if (num >= 1024 && num <= 49151) || num == 80 || num == 443 {
 			return true
 		}
 	}
