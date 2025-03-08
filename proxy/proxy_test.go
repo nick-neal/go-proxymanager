@@ -150,6 +150,7 @@ var getAvailableSitesTests = []getAvailableSitesTest{
 func TestGetAvailableSites(t *testing.T) {
 	for _, test := range getAvailableSitesTests {
 		output, err := GetAvailableSites(test.Cluster)
+		fmt.Println(output)
 		if err != nil {
 			t.Errorf("Error occured %v", err)
 			continue
