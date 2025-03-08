@@ -83,7 +83,23 @@ func TestDirectoryExist(t *testing.T) {
 
 }
 
-func TestGetAvailableConfigDir(t *testing.T) {}
+func TestGetAvailableConfigDir(t *testing.T) {
+	// test cluster
+	clusterGet := GetAvailableConfigDir("cluster")
+	clusterWant := GetNginxDir() + "/sites-available/k8s_cluster"
+
+	if clusterGet != clusterWant {
+		t.Errorf("Expected '%v' but received '%v'", clusterWant, clusterGet)
+	}
+
+	// test non-cluster
+	get := GetAvailableConfigDir("")
+	want := GetNginxDir() + "/sites-available"
+
+	if get != want {
+		t.Errorf("Expected '%v' but received '%v'", want, get)
+	}
+}
 
 func TestGetEnabledConfigDir(t *testing.T) {}
 
