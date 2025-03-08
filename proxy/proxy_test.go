@@ -143,7 +143,7 @@ type getAvailableSitesTest struct {
 }
 
 var getAvailableSitesTests = []getAvailableSitesTest{
-	getAvailableSitesTest{"", []string{}},
+	getAvailableSitesTest{"", nil},
 	getAvailableSitesTest{"test1", []string{"test.local"}},
 }
 
@@ -155,7 +155,7 @@ func TestGetAvailableSites(t *testing.T) {
 			continue
 		}
 
-		if output == nil {
+		if len(output) == 0 {
 			if test.Expected != nil {
 				t.Errorf("Expected %d items, received nil", len(test.Expected))
 			}
