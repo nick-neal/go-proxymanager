@@ -255,11 +255,12 @@ type listTest struct {
 	Expected string
 }
 
+// TODO: add test to test empty dir for cluster ""
 var listTests = []listTest{
 	listTest{"", "SiteEnabledsingle.localfalse"},
 	listTest{"test1", "SiteEnabledtest.localtrue"},
 	listTest{"test2", "cluster'test2'doesnotexist."},
-	listTest{"empty", "Nositesavailable"},
+	listTest{"empty", "Nositesavailableincluster'empty'"},
 }
 
 func TestList(t *testing.T) {
