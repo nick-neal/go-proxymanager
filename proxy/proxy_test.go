@@ -156,6 +156,7 @@ func TestGetAvailableSites(t *testing.T) {
 		}
 
 		if len(output) == 0 {
+			fmt.Println("test")
 			if test.Expected != nil {
 				t.Errorf("Expected %d items, received nil", len(test.Expected))
 			}
