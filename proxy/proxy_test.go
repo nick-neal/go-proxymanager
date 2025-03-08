@@ -154,6 +154,14 @@ func TestGetAvailableSites(t *testing.T) {
 			t.Errorf("Error occured %v", err)
 		}
 
+		if len(output) == 0 {
+			if len(test.Expected) != 0 {
+				t.Errorf("Expected %d items, received nil", len(test.Expected))
+			}
+
+			continue
+		}
+
 		for i, _ := range output {
 			if output[i] != test.Expected[i] {
 				t.Errorf("Expected '%v' at index %d but received '%v'", test.Expected[i], i, output[i])
