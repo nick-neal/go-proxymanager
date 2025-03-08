@@ -297,11 +297,83 @@ func TestList(t *testing.T) {
 	os.Clearenv()
 }
 
-func TestEnable(t *testing.T) {}
+type enableTest struct {
+	Cluster  string
+	Hostname string
+	Expected string
+	Enabled  bool
+}
 
-func TestDisable(t *testing.T) {}
+var enableTests = []enableTest{
+	enableTest{"", "single.local", "'single.local' enabled.", true},
+	enableTest{"test1", "test.local", "Site 'test.local' is already enabled.", false},
+	enableTest{"test1", "fail.local", "Site 'fail.local' does not exist in cluster 'test1'.", false},
+	enableTest{"", "fail.local", "Site 'fail.local' does not exist.", false},
+	enableTest{"test2", "fail.local", "Cluster 'test2' does not exist.", false},
+}
 
-func TestRemove(t *testing.T) {}
+func TestEnable(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+	os.Setenv("PROXYMANAGER_DEV_MODE", "true") // set dev mode to prevent restart
+
+	for _, test := range enableTests {
+		// redirect STDOUT to buffer
+		oldStdout := os.Stdout
+		r, w, _ := os.Pipe()
+		os.Stdout = w
+
+		// Run function
+		Enable(test.Cluster, test.Hostname)
+
+		// revert STDOUT
+		w.Close()
+		os.Stdout = oldStdout
+
+		// collect function output to String
+		var buf bytes.Buffer
+		_, _ = buf.ReadFrom(r)
+		output := buf.String()
+
+		// string newline chars
+		output = strings.ReplaceAll(output, "\n", "")
+
+		// check output
+		if output != test.Expected {
+			t.Errorf("Expected '%v' for site '%v' in cluster '%v', received '%v'", test.Expected, test.Hostname, test.Cluster, output)
+			continue
+		}
+
+		// check if site enabled.
+		siteEnabled := SiteEnabled(test.Hostname)
+		if !siteEnabled && test.Enabled {
+			t.Errorf("Site '%v' in cluster '%v' was not enabled", test.Hostname, test.Cluster)
+		}
+
+		// disable site that was enabled by test
+		if siteEnabled && test.Enabled {
+			Disable(test.Cluster, test.Hostname)
+		}
+	}
+
+	os.Clearenv()
+}
+
+func TestDisable(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+	os.Setenv("PROXYMANAGER_DEV_MODE", "true") // set dev mode to prevent restart
+
+	// add test
+
+	os.Clearenv()
+}
+
+func TestRemove(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
+	// add test
+
+	os.Clearenv()
+}
 
 func TestSiteExists(t *testing.T) {}
 
