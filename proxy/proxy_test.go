@@ -175,11 +175,64 @@ func TestGetAvailableSites(t *testing.T) {
 	os.Clearenv()
 }
 
-func TestClusterExists(t *testing.T) {}
+type clusterExistsTest struct {
+	Cluster  string
+	Expected bool
+}
 
-func TestSiteExistsInCluster(t *testing.T) {}
+var clusterExistsTests = []clusterExistsTest{
+	clusterExistsTest{"test1", true},
+	clusterExistsTest{"404", false},
+	clusterExistsTest{"", false}, // empty test
+}
 
-func TestSiteEnabled(t *testing.T) {}
+func TestClusterExists(t *testing.T) {
+	for _, test := range clusterExistsTests {
+		if output := ClusterExists(test.Cluster); output != test.Expected {
+			t.Errorf("Expected '%v' for cluster '%v', but received '%v'", test.Expected, test.Cluster, output)
+		}
+	}
+}
+
+type siteExistsInClusterTest struct {
+	Cluster  string
+	Hostname string
+	Expected bool
+}
+
+var siteExistsInClusterTests = []siteExistsInClusterTest{
+	siteExistsInClusterTest{"test1", "test.local", true},
+	siteExistsInClusterTest{"test1", "test.com", false},
+	siteExistsInClusterTest{"failure", "test.local", false},
+	siteExistsInClusterTest{"", "", false}, // empty test
+}
+
+func TestSiteExistsInCluster(t *testing.T) {
+	for _, test := range siteExistsInClusterTests {
+		if output := SiteExistsInCluster(test.Cluster, test.Hostname); output != test.Expected {
+			t.Errorf("Expected '%v' for site '%v' in cluster '%v', but received '%v'", test.Expected, test.Hostname, test.Cluster, output)
+		}
+	}
+}
+
+type siteEnabledTest struct {
+	Hostname string
+	Expected bool
+}
+
+var siteEnabledTests = []siteEnabledTest{
+	siteEnabledTest{"test.local", true},
+	siteEnabledTest{"fail.net", false},
+	siteEnabledTest{"", false}, // empty test
+}
+
+func TestSiteEnabled(t *testing.T) {
+	for _, test := range siteEnabledTests {
+		if output := SiteEnabled(test.Hostname); output != test.Expected {
+			t.Errorf("Expected '%v' for site '%v'. but received '%v'", test.Expected, test.Hostname, output)
+		}
+	}
+}
 
 func TestList(t *testing.T) {}
 
