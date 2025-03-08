@@ -2,18 +2,17 @@
 127.0.1.1 nginx-test
 
 # DO NOT EDIT, USE proxymanager
-### LB_K8S(test)
-10.30.78.131 test01.k8s
-10.30.78.132 test02.k8s
+### LB_K8S(test1)
+10.0.0.1 test01.local
 ### LB_K8S_END
 
 # DO NOT EDIT, USE proxymanager
-### LB_K8S(prod)
-10.30.78.121 prod01.k8s
-10.30.78.123 prod03.k8s
-10.30.78.122 prod02.k8s
+### LB_K8S(test2)
+10.0.1.1 app01.local
+10.0.1.2 app02.local
+10.0.1.2 app03.local
 ### LB_K8S_END
 
 # DO NOT EDIT, USE proxymanager
-### LB_K8S(prod2)
+### LB_K8S(test3)
 ### LB_K8S_END

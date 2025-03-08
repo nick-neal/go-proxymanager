@@ -1,15 +1,14 @@
 package nginx
 
 import (
-	"os"
 	"os/exec"
 )
 
 // check to make sure nginx config is in good state
-func TestNginxConfig() error {
+func CheckNginxConfig() error {
 	cmd := exec.Command("nginx", "-t")
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	//cmd.Stdout = os.Stdout
+	//cmd.Stderr = os.Stderr
 	err := cmd.Run()
 
 	return err
@@ -17,11 +16,11 @@ func TestNginxConfig() error {
 
 // restart nginx
 func RestartNginx() error {
-	err := TestNginxConfig()
+	err := CheckNginxConfig()
 	if err == nil {
 		cmd := exec.Command("systemctl", "restart", "nginx")
-		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
+		//cmd.Stdout = os.Stdout
+		//cmd.Stderr = os.Stderr
 		err2 := cmd.Run()
 
 		return err2

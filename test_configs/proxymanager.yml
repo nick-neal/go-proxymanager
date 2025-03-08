@@ -1,0 +1,16 @@
+loadBalancer:
+  hostsFile: test_configs/hosts
+proxy:
+  nginxDir: test_configs/nginx
+  proxyConfig: |
+    hostname="%HOSTNAME%"
+    backend="%BACKEND%"
+    proxy_verify="%PROXY_SSL_VERIFY_OFF%"
+  k8sProxyConfig: |
+    upstreamn_name="%UPSTREAM_NAME%"
+    upstream_nodes={
+    %UPSTREAM_NODES%
+    }
+    hostname="%HOSTNAME%"
+    backend="%BACKEND%"
+    proxy_verify="%PROXY_SSL_VERIFY_OFF%"

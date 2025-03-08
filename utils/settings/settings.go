@@ -22,12 +22,16 @@ func DefaultConfig() *Config {
 	config := &Config{}
 	config.LoadBalancer.HostsFile = "/etc/hosts"
 	config.Proxy.NginxDir = "/etc/nginx"
-	config.Proxy.ProxyConfig = `test
-test2
-test3`
-	config.Proxy.K8sProxyConfig = `test k8s
-test cause
-why not`
+	config.Proxy.ProxyConfig = `
+	test
+	test2
+	test3
+	`
+	config.Proxy.K8sProxyConfig = `
+	test k8s
+	test cause
+	why not
+	`
 
 	return config
 
