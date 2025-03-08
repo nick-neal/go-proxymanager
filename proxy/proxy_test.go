@@ -143,21 +143,22 @@ type getAvailableSitesTest struct {
 }
 
 var getAvailableSitesTests = []getAvailableSitesTest{
-	getAvailableSitesTest{"", nil},
+	getAvailableSitesTest{"", []string{}},
 	getAvailableSitesTest{"test1", []string{"test.local"}},
 }
 
 func TestGetAvailableSites(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
 	for _, test := range getAvailableSitesTests {
 		output, err := GetAvailableSites(test.Cluster)
-		fmt.Println(output)
+
 		if err != nil {
 			t.Errorf("Error occured %v", err)
 			continue
 		}
 
-		if len(output) == 0 {
-			fmt.Println("test")
+		if output == nil {
 			if test.Expected != nil {
 				t.Errorf("Expected %d items, received nil", len(test.Expected))
 			}
@@ -170,6 +171,8 @@ func TestGetAvailableSites(t *testing.T) {
 			}
 		}
 	}
+
+	os.Clearenv()
 }
 
 func TestClusterExists(t *testing.T) {}
