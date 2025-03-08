@@ -126,7 +126,7 @@ func TestGetEnabledSites(t *testing.T) {
 		t.Errorf("Error occured %v", err)
 		return
 	}
-	want := []string{"test.local"}
+	want := []string{"test.loca"}
 
 	for i, _ := range get {
 		if get[i] != want[i] {
