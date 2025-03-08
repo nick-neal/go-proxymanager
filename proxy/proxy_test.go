@@ -137,7 +137,30 @@ func TestGetEnabledSites(t *testing.T) {
 	os.Clearenv()
 }
 
-func TestGetAvailableSites(t *testing.T) {}
+type getAvailableSitesTest struct {
+	Cluster  string
+	Expected []string
+}
+
+var getAvailableSitesTests = []getAvailableSitesTest{
+	getAvailableSitesTest{"", []string{}},
+	getAvailableSitesTest{"test1", []string{"test.local"}},
+}
+
+func TestGetAvailableSites(t *testing.T) {
+	for _, test := range getAvailableSitesTests {
+		output, err := GetAvailableSites(test.Cluster)
+		if err != nil {
+			t.Errorf("Error occured %v", err)
+		}
+
+		for i, _ := range output {
+			if output[i] != test.Expected[i] {
+				t.Errorf("Expected '%v' at index %d but received '%v'", test.Expected[i], i, output[i])
+			}
+		}
+	}
+}
 
 func TestClusterExists(t *testing.T) {}
 
