@@ -187,11 +187,15 @@ var clusterExistsTests = []clusterExistsTest{
 }
 
 func TestClusterExists(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
 	for _, test := range clusterExistsTests {
 		if output := ClusterExists(test.Cluster); output != test.Expected {
 			t.Errorf("Expected '%v' for cluster '%v', but received '%v'", test.Expected, test.Cluster, output)
 		}
 	}
+
+	os.Clearenv()
 }
 
 type siteExistsInClusterTest struct {
@@ -208,11 +212,15 @@ var siteExistsInClusterTests = []siteExistsInClusterTest{
 }
 
 func TestSiteExistsInCluster(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
 	for _, test := range siteExistsInClusterTests {
 		if output := SiteExistsInCluster(test.Cluster, test.Hostname); output != test.Expected {
 			t.Errorf("Expected '%v' for site '%v' in cluster '%v', but received '%v'", test.Expected, test.Hostname, test.Cluster, output)
 		}
 	}
+
+	os.Clearenv()
 }
 
 type siteEnabledTest struct {
@@ -227,11 +235,15 @@ var siteEnabledTests = []siteEnabledTest{
 }
 
 func TestSiteEnabled(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
 	for _, test := range siteEnabledTests {
 		if output := SiteEnabled(test.Hostname); output != test.Expected {
 			t.Errorf("Expected '%v' for site '%v'. but received '%v'", test.Expected, test.Hostname, output)
 		}
 	}
+
+	os.Clearenv()
 }
 
 func TestList(t *testing.T) {}
