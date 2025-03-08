@@ -158,10 +158,16 @@ func TestGetAvailableSites(t *testing.T) {
 			continue
 		}
 
-		if output == nil {
-			if test.Expected != nil {
+		// prevent range panic
+		if output == nil || test.Expected == nil {
+			if output == nil && test.Expected != nil {
 				t.Errorf("Expected %d items, received nil", len(test.Expected))
 			}
+
+			if output != nil && test.Expected == nil {
+				t.Errorf("Expected nil items, received %d items", len(output))
+			}
+
 			continue
 		}
 
