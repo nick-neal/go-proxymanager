@@ -183,7 +183,7 @@ type clusterExistsTest struct {
 var clusterExistsTests = []clusterExistsTest{
 	clusterExistsTest{"test1", true},
 	clusterExistsTest{"404", false},
-	clusterExistsTest{"", false}, // empty test
+	clusterExistsTest{"", true}, // empty test
 }
 
 func TestClusterExists(t *testing.T) {
@@ -208,6 +208,7 @@ var siteExistsInClusterTests = []siteExistsInClusterTest{
 	siteExistsInClusterTest{"test1", "test.local", true},
 	siteExistsInClusterTest{"test1", "test.com", false},
 	siteExistsInClusterTest{"failure", "test.local", false},
+	siteExistsInClusterTest{"", "single.local", true},
 	siteExistsInClusterTest{"", "", false}, // empty test
 }
 
