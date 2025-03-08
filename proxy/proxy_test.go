@@ -259,6 +259,7 @@ var listTests = []listTest{
 	listTest{"", "SiteEnabledsingle.localfalse"},
 	listTest{"test1", "SiteEnabledtest.localtrue"},
 	listTest{"test2", "cluster'test2'doesnotexist."},
+	listTest{"empty", "Nositesavailable"},
 }
 
 func TestList(t *testing.T) {
