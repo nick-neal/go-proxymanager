@@ -143,7 +143,7 @@ type getAvailableSitesTest struct {
 }
 
 var getAvailableSitesTests = []getAvailableSitesTest{
-	getAvailableSitesTest{"", []string{}},
+	getAvailableSitesTest{"", nil},
 	getAvailableSitesTest{"test1", []string{"test.local"}},
 }
 
