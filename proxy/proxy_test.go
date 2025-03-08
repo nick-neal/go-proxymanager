@@ -143,8 +143,9 @@ type getAvailableSitesTest struct {
 }
 
 var getAvailableSitesTests = []getAvailableSitesTest{
-	getAvailableSitesTest{"", nil},
+	getAvailableSitesTest{"fail", nil},
 	getAvailableSitesTest{"test1", []string{"test.local"}},
+	getAvailableSitesTest{"", []string{"single.local"}},
 }
 
 func TestGetAvailableSites(t *testing.T) {
