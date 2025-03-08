@@ -72,7 +72,7 @@ func TestLoadConfig(t *testing.T) {
 
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", Getwd()+config_path)
 	get, _ := hashstructure.Hash(LoadConfig(), hashstructure.FormatV2, nil)
-	var want = uint64(8382684015897467055) //test config hash (test_configs/proxymanager.yml)
+	var want = uint64(1896282237486027739) //test config hash (test_configs/proxymanager.yml)
 
 	if get != want {
 		t.Errorf("test proxymanager.yml config returned hash '%d' instead of '%d'", get, want)

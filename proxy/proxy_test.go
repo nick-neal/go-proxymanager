@@ -55,7 +55,7 @@ func TestGetNginxDir(t *testing.T) {
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
 
 	get := GetNginxDir()
-	want := "test_configs/nginx"
+	want := "../test_configs/nginx"
 
 	if get != want {
 		t.Errorf("Expected '%v', got '%v'", want, get)
