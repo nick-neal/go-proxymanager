@@ -1,6 +1,7 @@
 package proxy
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"fmt"
 	"io"
@@ -249,7 +250,48 @@ func TestSiteEnabled(t *testing.T) {
 	os.Clearenv()
 }
 
-func TestList(t *testing.T) {}
+type listTest struct {
+	Cluster  string
+	Expected string
+}
+
+var listTests = []listTest{
+	listTest{"", "SiteEnabledsingle.localfalse"},
+}
+
+func TestList(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
+	for _, test := range listTests {
+		// redirect STDOUT to buffer
+		oldStdout := os.Stdout
+		r, w, _ := os.Pipe()
+		os.Stdout = w
+
+		// Run function
+		List(test.Cluster)
+
+		// revert STDOUT
+		w.Close()
+		os.Stdout = oldStdout
+
+		// collect function output to String
+		var buf bytes.Buffer
+		_, _ = buf.ReadFrom(r)
+		output := buf.String()
+
+		// strip new lines and spaces (used since table formatting is unpredictable)
+		output = strings.ReplaceAll(output, " ", "")
+		output = strings.ReplaceAll(output, "\n", "")
+
+		if output != test.Expected {
+			t.Errorf("Expected '%v', received '%v'", test.Expected, output)
+		}
+
+	}
+
+	os.Clearenv()
+}
 
 func TestEnable(t *testing.T) {}
 
