@@ -84,6 +84,8 @@ func TestDirectoryExist(t *testing.T) {
 }
 
 func TestGetAvailableConfigDir(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
 	// test cluster
 	clusterGet := GetAvailableConfigDir("cluster")
 	clusterWant := GetNginxDir() + "/sites-available/k8s_cluster"
@@ -99,30 +101,40 @@ func TestGetAvailableConfigDir(t *testing.T) {
 	if get != want {
 		t.Errorf("Expected '%v' but received '%v'", want, get)
 	}
+
+	os.Clearenv()
 }
 
 func TestGetEnabledConfigDir(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
 	get := GetEnabledConfigDir()
 	want := GetNginxDir() + "/sites-enabled"
 
 	if get != want {
 		t.Errorf("Expected '%v' but received '%v'", want, get)
 	}
+
+	os.Clearenv()
 }
 
 func TestGetEnabledSites(t *testing.T) {
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
 	get, err := GetEnabledSites()
 	if err != nil {
 		t.Errorf("Error occured %v", err)
 		return
 	}
-	want := []string{"test.loca"}
+	want := []string{"test.local"}
 
 	for i, _ := range get {
 		if get[i] != want[i] {
 			t.Errorf("Expected '%v' at index %d but received '%v'", want[i], i, get[i])
 		}
 	}
+
+	os.Clearenv()
 }
 
 func TestGetAvailableSites(t *testing.T) {}
