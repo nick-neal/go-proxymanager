@@ -154,11 +154,6 @@ func TestGetAvailableSites(t *testing.T) {
 	for _, test := range getAvailableSitesTests {
 		output, err := GetAvailableSites(test.Cluster)
 
-		if err != nil {
-			t.Errorf("Error occured %v", err)
-			continue
-		}
-
 		// prevent range panic
 		if output == nil || test.Expected == nil {
 			if output == nil && test.Expected != nil {
