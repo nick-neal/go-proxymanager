@@ -152,13 +152,13 @@ func TestGetAvailableSites(t *testing.T) {
 		output, err := GetAvailableSites(test.Cluster)
 		if err != nil {
 			t.Errorf("Error occured %v", err)
+			continue
 		}
 
-		if len(output) == 0 {
-			if len(test.Expected) != 0 {
+		if output == nil {
+			if test.Expected != nil {
 				t.Errorf("Expected %d items, received nil", len(test.Expected))
 			}
-
 			continue
 		}
 
