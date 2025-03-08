@@ -1,7 +1,7 @@
 loadBalancer:
-  hostsFile: test_configs/hosts
+  hostsFile: ../test_configs/hosts
 proxy:
-  nginxDir: test_configs/nginx
+  nginxDir: ../test_configs/nginx
   proxyConfig: |
     hostname="%HOSTNAME%"
     backend="%BACKEND%"
