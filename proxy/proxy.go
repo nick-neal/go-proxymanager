@@ -56,7 +56,7 @@ func GetEnabledConfigDir() string {
 }
 
 func GetEnabledSites() ([]string, error) {
-	enabledConfigDir := GetNginxDir() + "/sites-enabled"
+	enabledConfigDir := GetEnabledConfigDir()
 	enabledEntries, eErr := os.ReadDir(enabledConfigDir)
 	if eErr != nil {
 		fmt.Println(eErr)

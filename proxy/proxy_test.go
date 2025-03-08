@@ -101,9 +101,29 @@ func TestGetAvailableConfigDir(t *testing.T) {
 	}
 }
 
-func TestGetEnabledConfigDir(t *testing.T) {}
+func TestGetEnabledConfigDir(t *testing.T) {
+	get := GetEnabledConfigDir()
+	want := GetNginxDir() + "/sites-enabled"
 
-func TestGetEnabledSites(t *testing.T) {}
+	if get != want {
+		t.Errorf("Expected '%v' but received '%v'", want, get)
+	}
+}
+
+func TestGetEnabledSites(t *testing.T) {
+	get, err := GetEnabledSites()
+	if err != nil {
+		t.Errorf("Error occured %v", err)
+		return
+	}
+	want := []string{"test.loca"}
+
+	for i, _ := range get {
+		if get[i] != want[i] {
+			t.Errorf("Expected '%v' at index %d but received '%v'", want[i], i, get[i])
+		}
+	}
+}
 
 func TestGetAvailableSites(t *testing.T) {}
 
