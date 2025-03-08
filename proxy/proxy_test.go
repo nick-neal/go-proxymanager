@@ -152,7 +152,7 @@ func TestGetAvailableSites(t *testing.T) {
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
 
 	for _, test := range getAvailableSitesTests {
-		output, err := GetAvailableSites(test.Cluster)
+		output, _ := GetAvailableSites(test.Cluster)
 
 		// prevent range panic
 		if output == nil || test.Expected == nil {
