@@ -256,7 +256,9 @@ type listTest struct {
 }
 
 var listTests = []listTest{
-	listTest{"", "SiteEnabledsingle.localfals"},
+	listTest{"", "SiteEnabledsingle.localfalse"},
+	listTest{"test1", "SiteEnabledtest.localtrue"},
+	listTest{"test2", "cluster'test2'doesnotexist."},
 }
 
 func TestList(t *testing.T) {
