@@ -306,7 +306,7 @@ type enableTest struct {
 
 var enableTests = []enableTest{
 	enableTest{"", "single.local", "'single.local' enabled.", true},
-	enableTest{"test1", "test.local", "Site 'test.local' is already abled.", false},
+	enableTest{"test1", "test.local", "Site 'test.local' is already enabled.", false},
 	enableTest{"test1", "fail.local", "Site 'fail.local' does not exist in cluster 'test1'.", false},
 	enableTest{"", "fail.local", "Site 'fail.local' does not exist.", false},
 	enableTest{"test2", "fail.local", "Cluster 'test2' does not exist.", false},
