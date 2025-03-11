@@ -288,7 +288,7 @@ func Remove(cluster string, hostname string) {
 		return
 	}
 
-	// remove symlink
+	// remove config
 	sourcePath := GetAvailableConfigDir(cluster) + "/" + hostname + ".conf"
 
 	err := os.Remove(sourcePath)

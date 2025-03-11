@@ -3,9 +3,11 @@ package proxy
 import (
 	"bytes"
 	"crypto/sha256"
+	"errors"
 	"fmt"
 	"io"
 	"os"
+	"os/exec"
 	"runtime"
 	"strings"
 	"testing"
@@ -31,6 +33,18 @@ func BuildFilePath(filePath string) string {
 	} else {
 		return Getwd() + "/../" + filePath
 	}
+}
+
+func CreateTestFile(cluster string, site string) error {
+	dirString := GetAvailableConfigDir(cluster)
+	fileString := dirString + "/" + site + ".conf"
+
+	if DirectoryExist(fileString) && !SiteExistsInCluster(cluster, site) {
+		cmd := exec.Command("touch")
+		return cmd.Run()
+	}
+
+	return errors.New("can't create test file '" + fileString + "'")
 }
 
 func GetFileHash(filePath string) (string, error) {
@@ -419,10 +433,61 @@ func TestDisable(t *testing.T) {
 	os.Clearenv()
 }
 
+type removeTest struct {
+	Cluster  string
+	Hostname string
+	Create   bool
+	Expected string
+}
+
+var removeTests = []removeTest{
+	removeTest{"empty", "new.local", true, "'new.local' removed."},                                            // in-cluster
+	removeTest{"", "new.local", true, "'new.local' removed."},                                                 // non-cluster
+	removeTest{"test1", "test.local", false, "Site 'test.local' is enabled. Please disable before removing."}, // test enabled site
+	removeTest{"", "new.local", false, "Site 'new.local' does not exist."},                                    // test site that doesn't exist
+	removeTest{"empty", "new.local", false, "Site 'new.local' does not exist in cluster 'empty'."},            // test site that doesn't exist cluster
+	removeTest{"test2", "new.local", false, "Cluster 'test2' does not exist."},                                // test cluster that doesn't exist
+}
+
 func TestRemove(t *testing.T) {
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
 
-	// add test
+	for _, test := range removeTests {
+		// check if a test file needs to be created.
+		if test.Create {
+			CreateTestFile(test.Cluster, test.Hostname)
+		}
+
+		// redirect stdout
+		oldStdout := os.Stdout
+		r, w, _ := os.Pipe()
+		os.Stdout = w
+
+		// run function
+		Remove(test.Cluster, test.Hostname)
+
+		//revert stdout
+		w.Close()
+		os.Stdout = oldStdout
+
+		// collect output to string
+		var buf bytes.Buffer
+		_, _ = buf.ReadFrom(r)
+		output := buf.String()
+
+		// strip newline chars
+		output = strings.ReplaceAll(output, "\n", "")
+
+		// check output
+		if output != test.Expected {
+			t.Errorf("Expected '%v' for site '%v' in cluster '%v', received '%v'", test.Expected, test.Hostname, test.Cluster, output)
+		}
+
+		// check if test file that was created was removed
+		if test.Create && SiteExistsInCluster(test.Cluster, test.Hostname) {
+			t.Errorf("Site '%v' in cluster '%v' was not removed as planned", test.Hostname, test.Cluster)
+		}
+	}
 
 	os.Clearenv()
 }
