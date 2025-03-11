@@ -455,7 +455,10 @@ func TestRemove(t *testing.T) {
 	for _, test := range removeTests {
 		// check if a test file needs to be created.
 		if test.Create {
-			CreateTestFile(test.Cluster, test.Hostname)
+			err := CreateTestFile(test.Cluster, test.Hostname)
+			if err != nil {
+				t.Errorf("%v", err)
+			}
 		}
 
 		// redirect stdout
