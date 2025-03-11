@@ -40,7 +40,7 @@ func CreateTestFile(cluster string, site string) error {
 	fileString := dirString + "/" + site + ".conf"
 
 	if DirectoryExist(fileString) && !SiteExistsInCluster(cluster, site) {
-		cmd := exec.Command("touch")
+		cmd := exec.Command("touch", fileString)
 		return cmd.Run()
 	}
 
