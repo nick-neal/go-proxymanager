@@ -583,6 +583,11 @@ func TestNew(t *testing.T) {
 		{"","fail2.local","10.0.0.1","1023","",false, false, false, false, "Port '1023' is invalid. please specify a port in the following range: 1024-49151", false, "", false},
 		{"","fail3.local","10.0.0.1","49152","",false, false, false, false, "Port '49152' is invalid. please specify a port in the following range: 1024-49151", false, "", false},
 		{"","fail4.local","10.0.0.1","abcd","",false, false, false, false, "Port 'abcd' is invalid. please specify a port in the following range: 1024-49151", false, "", false},
+		{"","fail5.local","10.0.0.1","1024","/uri?a=b",false, false, false, false, "Uri '/uri?a=b' is invalid.A uri must start with a '/' and only contain the following characters: a-z, A-Z, 0-9, /, -, _, ., and ~", false, "", false},
+		{"","fail6.local","10.0.0.1","1024","uri-test",false, false, false, false, "Uri 'uri-test' is invalid.A uri must start with a '/' and only contain the following characters: a-z, A-Z, 0-9, /, -, _, ., and ~", false, "", false},
+		{"fail","fail7.local","10.0.0.1","1024","",false, false, false, false, "Cluster 'fail' does not exist.", false, "", false},
+		{"empty","fail8.local","10.0.0.1","1024","",false, false, false, false, "Cluster 'empty' has no assigned nodes.", false, "", false},
+		{"test1","fail9.local","10.0.0.1","","",false, false, false, false, "no port was specified.", false, "", false},
 	}
 
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
