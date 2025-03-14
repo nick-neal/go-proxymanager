@@ -273,7 +273,7 @@ type listTest struct {
 var listTests = []listTest{
 	listTest{"", "SiteEnabledsingle.localfalse"},
 	listTest{"test1", "SiteEnabledtest.localtrue"},
-	listTest{"test2", "cluster'test2'doesnotexist."},
+	listTest{"test3", "cluster'test3'doesnotexist."},
 	listTest{"empty", "Nositesavailableincluster'empty'"},
 }
 
@@ -323,7 +323,7 @@ var enableTests = []enableTest{
 	enableTest{"test1", "test.local", "Site 'test.local' is already enabled.", false},
 	enableTest{"test1", "fail.local", "Site 'fail.local' does not exist in cluster 'test1'.", false},
 	enableTest{"", "fail.local", "Site 'fail.local' does not exist.", false},
-	enableTest{"test2", "fail.local", "Cluster 'test2' does not exist.", false},
+	enableTest{"test3", "fail.local", "Cluster 'test3' does not exist.", false},
 }
 
 func TestEnable(t *testing.T) {
@@ -384,7 +384,7 @@ var disableTests = []disableTest{
 	disableTest{"", "single.local", "Site 'single.local' is already disabled.", false},
 	disableTest{"test1", "fail.local", "Site 'fail.local' does not exist in cluster 'test1'.", false},
 	disableTest{"", "fail.local", "Site 'fail.local' does not exist.", false},
-	disableTest{"test2", "fail.local", "Cluster 'test2' does not exist.", false},
+	disableTest{"test3", "fail.local", "Cluster 'test3' does not exist.", false},
 }
 
 func TestDisable(t *testing.T) {
@@ -446,7 +446,7 @@ var removeTests = []removeTest{
 	removeTest{"test1", "test.local", false, "Site 'test.local' is enabled. Please disable before removing."}, // test enabled site
 	removeTest{"", "new.local", false, "Site 'new.local' does not exist."},                                    // test site that doesn't exist
 	removeTest{"empty", "new.local", false, "Site 'new.local' does not exist in cluster 'empty'."},            // test site that doesn't exist cluster
-	removeTest{"test2", "new.local", false, "Cluster 'test2' does not exist."},                                // test cluster that doesn't exist
+	removeTest{"test3", "new.local", false, "Cluster 'test3' does not exist."},                                // test cluster that doesn't exist
 }
 
 func TestRemove(t *testing.T) {
