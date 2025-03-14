@@ -554,7 +554,7 @@ func TestGetMD5Hash(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		if output := GetMD5Hash(test.Text); if output != test.Hash {
+		if output := GetMD5Hash(test.Text); output != test.Hash {
 			t.Errorf("Expected hash '%v' for string '%v', received '%v'", test.Hash, test.Text, output)
 		}
 	}
