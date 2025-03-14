@@ -522,8 +522,8 @@ func TestCreateSiteConfig(t *testing.T) {
 		FileLines []string
 		FileHash string
 	}{
-		{BuildFilePath("file1.txt"),{"Hello World!"},""},
-		{BuildFilePath("file2.txt"),{"Hello World!","Here's another line."},""},
+		{BuildFilePath("file1.txt"),[]string{"Hello World!"},""},
+		{BuildFilePath("file2.txt"),[]string{"Hello World!","Here's another line."},""},
 	}
 
 	for _, test := range tests {
@@ -534,12 +534,12 @@ func TestCreateSiteConfig(t *testing.T) {
 		}
 
 		// check file hash
-		if output, err := GetFileHash(test.FilePath); output != test.FileHash {
+		if output, _ := GetFileHash(test.FilePath); output != test.FileHash {
 			t.Errorf("Expected hash '%v' for file '%v', received '%v'", test.FileHash, test.FilePath, output)
 		}
 
 		// remove file
-		_ := os.Remove(test.FilePath)
+		os.Remove(test.FilePath)
 	}
 }
 
