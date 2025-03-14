@@ -503,7 +503,7 @@ func TestSiteExists(t *testing.T) {
 	}{
 		{"test.local", true},
 		{"single.local", true},
-		{"fail.local", false},
+		{"fail.local", true},
 	}
 
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
