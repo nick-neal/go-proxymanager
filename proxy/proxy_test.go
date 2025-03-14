@@ -518,6 +518,22 @@ func TestSiteExists(t *testing.T) {
 
 func TestCreateSiteConfig(t *testing.T) {}
 
-func TestGetMD5Hash(t *testing.T) {}
+func TestGetMD5Hash(t *testing.T) {
+	tests := []struct {
+		Text string
+		Hash string
+	}{
+		{"","d41d8cd98f00b204e9800998ecf8427e"},
+		{"string","b45cffe084dd3d20d928bee85e7b0f21"},
+		{"abcdefghijk@@@jlkjaads","74279c25a17e47f6fb22a9a2118dbb9b"},
+	}
+
+	for _, test := range tests {
+		if output := GetMD5Hash(test.Text); if output != test.Hash {
+			t.Errorf("Expected hash '%v' for string '%v', received '%v'", test.Hash, test.Text, output)
+		}
+	}
+
+}
 
 func TestNew(t *testing.T) {}
