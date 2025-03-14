@@ -561,4 +561,83 @@ func TestGetMD5Hash(t *testing.T) {
 
 }
 
-func TestNew(t *testing.T) {}
+func TestNew(t *testing.T) {
+	tests := []struct {
+		Cluster string
+		Hostname string
+		IPAddress string
+		Port string
+		URI string
+		ssl bool
+		sslBypassFirewall bool
+		proxySsl bool
+		proxySslVerifyOff bool
+		Expected string
+		CheckFileHash bool
+		FileHash string
+		Cleanup bool // used to tell test to cleanup file after run
+	}{
+		//{"","","","","",false, false, false, false, "", false, "", false},
+		{"","single.local","10.0.0.1","1024","",false, false, false, false, "Site 'single.local' is already in use on this server.", false, "", false},
+		{"","fail1.local","10.0.0.256","1024","",false, false, false, false, "IP Address not valid: 10.0.0.256", false, "", false},
+		{"","fail2.local","10.0.0.1","1023","",false, false, false, false, "Port '1023' is invalid. please specify a port in the following range: 1024-49151", false, "", false},
+		{"","fail3.local","10.0.0.1","49152","",false, false, false, false, "Port '49152' is invalid. please specify a port in the following range: 1024-49151", false, "", false},
+		{"","fail4.local","10.0.0.1","abcd","",false, false, false, false, "Port 'abcd' is invalid. please specify a port in the following range: 1024-49151", false, "", false},
+	}
+
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+
+	for _, test := range tests {
+		// check command ouput
+		// redirect stdout
+		oldStdout := os.Stdout
+		r, w, _ := os.Pipe()
+		os.Stdout = w
+
+		// run function
+		New(test.Cluster,
+			test.Hostname,
+			test.IPAddress,
+			test.Port,
+			test.URI,
+			test.ssl,
+			test.sslBypassFirewall,
+			test.proxySsl,
+			test.proxySslVerifyOff)
+
+		// revert stdout
+		w.Close()
+		os.Stdout = oldStdout
+
+		// collect output to string
+		var buf bytes.Buffer
+		_, _ = buf.ReadFrom(r)
+		output := buf.String()
+
+		// strip newline chars
+		output := strings.ReplaceAll(output, "\n", "")
+
+		// check output
+		if output != test.Expected {
+			t.Errorf("Site '%v': Expected '%v', received '%v'", test.Hostname, test.Expected, output)
+		}
+
+		// check file hash
+		if test.CheckFileHash {
+			filePath := GetAvailableConfigDir(test.Cluster) + "/" + test.Hostname + ".conf"
+
+			if fileHash := GetFileHash(filePath); test.FileHash != fileHash {
+				t.Errorf("File '%v': Expected hash '%v', received '%v'", filePath, test.FileHash, fileHash)
+			}
+		}
+
+		// cleanup any files created
+		if test.Cleanup {
+			filePath := GetAvailableConfigDir(test.Cluster) + "/" + test.Hostname + ".conf"
+			os.Remove(filePath)
+		}
+		
+	}
+
+	os.Clearenv()
+}
