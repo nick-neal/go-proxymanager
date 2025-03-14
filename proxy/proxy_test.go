@@ -516,7 +516,32 @@ func TestSiteExists(t *testing.T) {
 	os.Clearenv()
 }
 
-func TestCreateSiteConfig(t *testing.T) {}
+func TestCreateSiteConfig(t *testing.T) {
+	tests := []struct {
+		FilePath string
+		FileLines []string
+		FileHash string
+	}{
+		{BuildFilePath("file1.txt"),{"Hello World!"},""},
+		{BuildFilePath("file2.txt"),{"Hello World!","Here's another line."},""},
+	}
+
+	for _, test := range tests {
+		// create file
+		if fileErr := CreateSiteConfig(test.FilePath, test.FileLines); fileErr != nil {
+			t.Errorf("Issue creating file '%v': %v", test.FilePath, fileErr)
+			continue
+		}
+
+		// check file hash
+		if output, err := GetFileHash(test.FilePath); output != test.FileHash {
+			t.Errorf("Expected hash '%v' for file '%v', received '%v'", test.FileHash, test.FilePath, output)
+		}
+
+		// remove file
+		_ := os.Remove(test.FilePath)
+	}
+}
 
 func TestGetMD5Hash(t *testing.T) {
 	tests := []struct {
