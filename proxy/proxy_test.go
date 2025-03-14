@@ -588,12 +588,12 @@ func TestNew(t *testing.T) {
 		{"fail","fail7.local","10.0.0.1","1024","",false, false, false, false, "Cluster 'fail' does not exist.", false, "", false},
 		{"empty","fail8.local","10.0.0.1","1024","",false, false, false, false, "Cluster 'empty' has no assigned nodes.", false, "", false},
 		{"test1","fail9.local","10.0.0.1","","",false, false, false, false, "no port was specified.", false, "", false},
-		{"","pass1.local","10.0.0.1","1024","/uri",false, false, false, false, "Site 'pass1.local' created.", true, "", false},
-		{"","pass2.local","10.0.0.1","","/uri",false, false, true, false, "Site 'pass2.local' created.", true, "", false},
-		{"","pass3.local","10.0.0.1","","",false, false, true, true, "Site 'pass3.local' created.", true, "", false},
-		{"test1","pass4.local","10.0.0.1","8080","/uri",false, false, false, false, "Site 'pass4.local' created in cluster 'test1'.", true, "", false},
-		{"test1","pass5.local","10.0.0.1","8443","/uri",false, false, true, false, "Site 'pass5.local' created in cluster 'test1'.", true, "", false},
-		{"test1","pass6.local","10.0.0.1","8443","",false, false, true, true, "Site 'pass6.local' created in cluster 'test1'.", true, "", false},
+		{"","pass1.local","10.0.0.1","1024","/uri",false, false, false, false, "Site 'pass1.local' created.", true, "2fe65cf7669d5c171b9aa9770734cebc30055f2d6b548efeac1f0c255aff667c", true},
+		{"","pass2.local","10.0.0.1","","/uri",false, false, true, false, "Site 'pass2.local' created.", true, "c1793490c15b47400a1725bdd9bd87180734e733a1e00b6e533e93f9917102fa", true},
+		{"","pass3.local","10.0.0.1","","",false, false, true, true, "Site 'pass3.local' created.", true, "2a689129d8875ea403d3cd8d755fb9bf5628d2b8806ea47d1ab376133bb6cb71", true},
+		{"test1","pass4.local","10.0.0.1","8080","/uri",false, false, false, false, "Site 'pass4.local' created in cluster 'test1'.", true, "f142358983ee6999fa855155837039205c027833946ee14bed139c3992bc7017", true},
+		{"test1","pass5.local","10.0.0.1","8443","/uri",false, false, true, false, "Site 'pass5.local' created in cluster 'test1'.", true, "5648642a6773dd7269908b4d2d4b0251c67037d93bb3582fa06b87fe8168f179", true},
+		{"test1","pass6.local","10.0.0.1","8443","",false, false, true, true, "Site 'pass6.local' created in cluster 'test1'.", true, "a9e1beb93458df052bc947cbd4449ae6ba65a107c5111fd14b15afa8e24975e1", true},
 	}
 
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
