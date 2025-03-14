@@ -495,7 +495,26 @@ func TestRemove(t *testing.T) {
 	os.Clearenv()
 }
 
-func TestSiteExists(t *testing.T) {}
+func TestSiteExists(t *testing.T) {
+	
+	tests := []struct {
+		Hostname string
+		Expected bool
+	}{
+		{"test.local", true},
+		{"single.local", true},
+		{"fail.local", false},
+	}
+
+	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
+	for _, test := range tests {
+		if output := SiteExists(test.Hostname); output != test.Expected {
+			t.Errorf("Expected '%v' for site '%v', received '%v'",test.Expected, test.Hostname, output)
+		}
+	}
+
+	os.Clearenv()
+}
 
 func TestCreateSiteConfig(t *testing.T) {}
 
