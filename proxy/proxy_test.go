@@ -522,8 +522,8 @@ func TestCreateSiteConfig(t *testing.T) {
 		FileLines []string
 		FileHash string
 	}{
-		{BuildFilePath("file1.txt"),[]string{"Hello World!"},""},
-		{BuildFilePath("file2.txt"),[]string{"Hello World!","Here's another line."},""},
+		{BuildFilePath("file1.txt"),[]string{"Hello World!"},"03ba204e50d126e4674c005e04d82e84c21366780af1f43bd54a37816b6ab340"},
+		{BuildFilePath("file2.txt"),[]string{"Hello World!","Here's another line."},"85273a58194726014a61e216edc73c796a15799eb2cf4bf216d0cccc1ef789cf"},
 	}
 
 	for _, test := range tests {
