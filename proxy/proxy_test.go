@@ -615,7 +615,7 @@ func TestNew(t *testing.T) {
 		output := buf.String()
 
 		// strip newline chars
-		output := strings.ReplaceAll(output, "\n", "")
+		output = strings.ReplaceAll(output, "\n", "")
 
 		// check output
 		if output != test.Expected {
@@ -626,7 +626,7 @@ func TestNew(t *testing.T) {
 		if test.CheckFileHash {
 			filePath := GetAvailableConfigDir(test.Cluster) + "/" + test.Hostname + ".conf"
 
-			if fileHash := GetFileHash(filePath); test.FileHash != fileHash {
+			if fileHash, _ := GetFileHash(filePath); test.FileHash != fileHash {
 				t.Errorf("File '%v': Expected hash '%v', received '%v'", filePath, test.FileHash, fileHash)
 			}
 		}
