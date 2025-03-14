@@ -588,6 +588,12 @@ func TestNew(t *testing.T) {
 		{"fail","fail7.local","10.0.0.1","1024","",false, false, false, false, "Cluster 'fail' does not exist.", false, "", false},
 		{"empty","fail8.local","10.0.0.1","1024","",false, false, false, false, "Cluster 'empty' has no assigned nodes.", false, "", false},
 		{"test1","fail9.local","10.0.0.1","","",false, false, false, false, "no port was specified.", false, "", false},
+		{"","pass1.local","10.0.0.1","1024","/uri",false, false, false, false, "Site 'pass1.local' created.", true, "", false},
+		{"","pass2.local","10.0.0.1","","/uri",false, false, true, false, "Site 'pass2.local' created.", true, "", false},
+		{"","pass3.local","10.0.0.1","","",false, false, true, true, "Site 'pass3.local' created.", true, "", false},
+		{"test1","pass4.local","10.0.0.1","8080","/uri",false, false, false, false, "Site 'pass4.local' created in cluster 'test1'.", true, "", false},
+		{"test1","pass5.local","10.0.0.1","8443","/uri",false, false, true, false, "Site 'pass5.local' created in cluster 'test1'.", true, "", false},
+		{"test1","pass6.local","10.0.0.1","8443","",false, false, true, true, "Site 'pass6.local' created in cluster 'test1'.", true, "", false},
 	}
 
 	os.Setenv("PROXYMANAGER_CONFIG_PATH", GetConfigPath())
